@@ -1,61 +1,56 @@
-import csv
 import datetime
+import utils
 
-ANSWER_HEADER = ['id','submission_time','vote_number','question_id','message','image']
+questions_data = "question.csv"
+answers_data = "answer.csv"
 
 def get_all_answers_by_latest():
     data = []
-    with open('./data/answer.csv', 'r') as file:
-        reader = csv.DictReader(file) 
-        for row in reader:
-            data.append(row)
-            data = sorted(data, key=lambda i: i['submission_time'])
+    answers = utils.open_file(questions_data)
+
+    for row in answers:
+        data.append(row)
+        data = sorted(data, key=lambda i: i['submission_time'])
     return data
 
 
 def get_answer_by_question_id(question_id):
     data = []
-    with open('./data/answer.csv', 'r') as file:
-        reader = csv.DictReader(file) 
-        for row in reader:
-            if row['question_id'] == question_id:
-                data.append(row)
+    answers = utils.open_file(answers_data)
+
+    for row in answers:
+        if row['question_id'] == question_id:
+            data.append(row)
     return data
 
 
 def add_answer(answer, question_id):
-    data = {}  
-    with open('./data/answer.csv', 'a', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=ANSWER_HEADER)
-        
-        answers = get_all_answers_by_latest()
-        if len(answers) == 0:
-            iddd = 1
-        else:
-            idd = answers[len(answers)-1]['id']
-            iddd = int(idd)+1
+    data = {} 
+    answers = utils.open_file(answers_data)
+    answers.remove(answers[0])
+    if len(answers) == 0:
+        iddd = 1
+    else:
+        idd = answers[len(answers)-1]['id']
+        id_int = int(idd) 
+        iddd= id_int+1
 
-        data['id'] =  iddd
-        data['submission_time'] = datetime.date.today()
-        data['vote_number'] = 0
-        data['question_id'] = question_id
-        data['message'] = answer
-        data['image'] =  None
+    data['id'] =  iddd
+    data['submission_time'] = datetime.datetime.now()
+    data['vote_number'] = 0
+    data['question_id'] = question_id
+    data['message'] = answer
+    data['image'] =  ""
 
-        writer.writerow(data)
+    utils.append_to_file(answers_data, data)
 
 
 def delete_answer_by_id(answer_id):
-    lines = []
+    data = []
+    answers = utils.open_file(answers_data)
 
-    with open('./data/answer.csv', 'r',  newline='', encoding='utf-8') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            lines.append(row)
-            print(row)
-            if row[0] == answer_id:
-                lines.remove(row)
-                
-    with open('./data/answer.csv', 'w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerows(lines)
+    for row in answers:
+        if row['id'] != answer_id:
+            data.append(row)
+
+    utils.write_to_file(answers_data, data)

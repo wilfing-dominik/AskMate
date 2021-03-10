@@ -26,7 +26,7 @@ def add_question(question):
     with open('./data/question.csv', 'a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=QUESTION_HEADER)
         data['id'] = question['id']
-        data['submission_time'] = datetime.date.today()
+        data['submission_time'] = datetime.datetime.now()
         data['view_number'] = 0
         data['vote_number'] = 0 
         data['title'] = question['title']
