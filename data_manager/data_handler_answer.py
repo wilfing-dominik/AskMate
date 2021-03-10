@@ -3,10 +3,11 @@ import utils
 
 questions_data = "question.csv"
 answers_data = "answer.csv"
+ANSWER_HEADER = ['id','submission_time','vote_number','question_id','message','image']
 
 def get_all_answers_by_latest():
     data = []
-    answers = utils.open_file(questions_data)
+    answers = utils.open_file(questions_data, ANSWER_HEADER)
 
     for row in answers:
         data.append(row)
@@ -16,7 +17,7 @@ def get_all_answers_by_latest():
 
 def get_answer_by_question_id(question_id):
     data = []
-    answers = utils.open_file(answers_data)
+    answers = utils.open_file(answers_data, ANSWER_HEADER)
 
     for row in answers:
         if row['question_id'] == question_id:
@@ -26,7 +27,7 @@ def get_answer_by_question_id(question_id):
 
 def add_answer(answer, question_id):
     data = {} 
-    answers = utils.open_file(answers_data)
+    answers = utils.open_file(answers_data, ANSWER_HEADER)
     answers.remove(answers[0])
     if len(answers) == 0:
         iddd = 1
@@ -42,15 +43,15 @@ def add_answer(answer, question_id):
     data['message'] = answer
     data['image'] =  ""
 
-    utils.append_to_file(answers_data, data)
+    utils.append_to_file(answers_data, data, ANSWER_HEADER)
 
 
 def delete_answer_by_id(answer_id):
     data = []
-    answers = utils.open_file(answers_data)
+    answers = utils.open_file(answers_data, ANSWER_HEADER)
 
     for row in answers:
         if row['id'] != answer_id:
             data.append(row)
 
-    utils.write_to_file(answers_data, data)
+    utils.write_to_file(answers_data, data, ANSWER_HEADER)

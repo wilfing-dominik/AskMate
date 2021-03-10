@@ -9,9 +9,7 @@ app = Flask(__name__)
 @app.route("/")
 @app.route('/list')
 def question_list():
-
     data = data_handler_question.get_all_quetions_by_latest()
-    
     return render_template('list.html', data=data)
 
 
@@ -67,7 +65,6 @@ def post_answer(question_id):
 
 @app.route('/question/<answer_id>/delete-answer', methods=['GET','POST'])
 def delete_answer_by_id(answer_id):
-        print('Answer id: ' + answer_id)
         data_handler_answer.delete_answer_by_id(answer_id)
         return redirect('/')
 
