@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='question.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1 class="title"><a href="/">Ask Mate</a></h1>
+
+    <div class="handling-button-wrapper">
+        <a class="handling-button" href="{{ question['id'] }}/edit">Edit question</a>
+        <a class="handling-button" href="{{ question['id'] }}/new-answer">Post answer</a>
+        <a class="handling-button" href="/question/{{ question['id'] }}/delete-question">Delete question</a>
+    </div>
+
+    <table class="question-table">
+        <thead>
+            <th>Title</th>
+            <th>Message</th>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{ question['title'] }}</td>
+                <td>{{ question['message'] }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if answers is defined %}
+        <table id="answer-table">
+
+            <thead>
+                <th>Submissison Time</th>
+                <th>Vote Number</th>
+                <th>Message</th>
+                <th>Image</th>
+                <th>Delete</th>
+            </thead>
+
+            <tbody>
+                {% for elem in answers %}
+                    <tr>
+                        <td>{{ elem['submission_time'] }}</td>
+                        <td>{{ elem['vote_number'] }}</td>
+                        <td>{{ elem['message'] }}</td>
+                        <td>{{ elem['image'] }}</td>
+                        <td>
+                            <form action="/question/{{ elem['id'] }}/delete-answer" method="POST">
+                                <button type="submit">Delete answer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}    
+            </tbody>
+
+        </table>
+    {% endif  %}
+
+</body>
+</html>

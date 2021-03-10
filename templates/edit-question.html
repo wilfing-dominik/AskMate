@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit question</title>
+</head>
+<body>
+    
+    <form action="/question/{{ question_id }}/edit" method="POST">
+        <label for="title">TITLE</label>
+        <textarea name="title" cols="10" rows="5">{{ question['title'] }}</textarea>
+        <br>
+        <label for="message">MESSAGE</label>
+        <textarea name="message" cols="30" rows="10">{{ question['message'] }}</textarea>
+        <br>
+        <button type="submit">Edit question</button>
+    </form>
+
+</body>
+</html>

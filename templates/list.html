@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='list.css') }}">
+    <title>Ask-Mate</title>
+</head>
+<body>
+    <h1><a href="/" id="title">Ask Mate</a></h1>
+    <div class=wrapper>
+        <table class="question-table"> 
+            <thead>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Views</th>
+                <th>Votes</th>
+                <th>Image</th>
+                <th>Date</th>
+            </thead>
+            <tbody>
+                {% for elem in data %}
+                    <tr>
+                        <td><a href="/question/{{ elem['id'] }}">{{ elem['title'] }}</a></td>
+                        <td class="message">{{ elem['message'] }}</td>
+                        <td>{{ elem['view_number'] }}</td>
+                        <td>{{ elem['vote_number'] }}</td>
+                        <td>{{ elem['image'] }}</td>
+                        <td>{{ elem['submission_time'] }}</td>
+                    </tr>
+                {%endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br><br>
+    <a id="add-question" href="/add-question">Add new question</a>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='add-question.css') }}">
+    <title>Document</title>
+</head>
+<body>
+    <h1><a href="/" id="title">Ask Mate</a></h1>
+    <div class="wrapper">
+        <form action="/add-question" method="POST">
+            <label for="title">TITLE</label>
+            <br><br>
+            <input type="text" name="title" maxlength="26">
+            <br><br><br><br>
+            <label for="message">MESSAGE</label>
+            <br><br>
+            <textarea name="message" cols="90" rows="15"></textarea>
+            <br>
+            <button id="button" type="submit">ADD QUESTION</button>
+        </form>
+    </div>
+</body>
+</html>
