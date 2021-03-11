@@ -9,13 +9,20 @@ app = Flask(__name__)
 @app.route("/")
 @app.route('/list')
 def question_list():
-    data = data_handler_question.get_all_quetions_by_latest()
+    if request.args:
+        if request.args.get('order') == 'ascending':
+            order = False
+        else:
+            order = True
+        by = request.args.get('by')
+        data = data_handler_question.get_all_quetions_by_latest(order, by)
+    else:
+        data = data_handler_question.get_all_quetions_by_latest()
     return render_template('list.html', data=data)
 
 
 @app.route('/question/<question_id>')
 def question(question_id):
-
     question = data_handler_question.get_question_by_id(question_id)
     data_handler_question.increment_view_number(question)
     answers = data_handler_answer.get_answer_by_question_id(question_id)
@@ -32,11 +39,10 @@ def add_question():
     if request.method == 'POST':
         data = data_handler_question.get_all_quetions_by_latest()
         if len(data) == 0:
-            iddd = 1
+            question_id = 1
         else:
-            idd = data[len(data)-1]['id']
-            iddd = int(idd)+1
-        question = {'id': iddd, 'message': request.form['message'], 'title': request.form['title']}
+            question_id = int(data[len(data)-1]['id'])+1
+        question = {'id': question_id, 'message': request.form['message'], 'title': request.form['title']}
         data_handler_question.add_question(question)
         return redirect('/question/' + str(question['id']))
 
@@ -48,7 +54,6 @@ def delete_question(question_id):
 
     if request.method == 'GET':
         data_handler_question.delete_question_by_id(question_id)
-
         return redirect('/')
 
 
@@ -71,7 +76,6 @@ def delete_answer_by_id(answer_id):
 
 @app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
 def edit_question(question_id):
-    
     question = data_handler_question.get_question_by_id(question_id)
 
     if request.method == 'POST':

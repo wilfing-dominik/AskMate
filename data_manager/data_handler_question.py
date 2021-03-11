@@ -6,13 +6,13 @@ answers_data = "answer.csv"
 QUESTION_HEADER = ['id','submission_time','view_number','vote_number','title','message','image']
 ANSWER_HEADER = ['id','submission_time','vote_number','question_id','message','image']
 
-def get_all_quetions_by_latest():
+def get_all_quetions_by_latest(order=False, by='submission_time'):
     data = []
     questions = utils.open_file(questions_data, QUESTION_HEADER)
-
+    questions.remove(questions[0])
     for row in questions:
         data.append(row)
-        data = sorted(data, key=lambda i: i['submission_time'])
+        data = sorted(data, key=lambda i: i[by],reverse=order)
     return data
 
 
@@ -32,8 +32,8 @@ def add_question(question):
     data['vote_number'] = 0 
     data['title'] = question['title']
     data['message'] = question['message'] 
-    data['image'] = None
-
+    data['image'] = ''
+    
     utils.append_to_file(questions_data, data, QUESTION_HEADER)
 
 

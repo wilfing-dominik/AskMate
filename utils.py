@@ -2,7 +2,7 @@ import csv
 
 def open_file(file, header):
     data = []
-    with open('./data/' + file, 'r') as csv_file:
+    with open('./data/' + file, 'r', newline='') as csv_file:
         raw_data = csv.DictReader(csv_file, fieldnames=header)
         for row in raw_data:
             data.append(row)
