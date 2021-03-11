@@ -3,7 +3,7 @@ import utils
 
 questions_data = "question.csv"
 answers_data = "answer.csv"
-ANSWER_HEADER = {'id','submission_time','vote_number','question_id','message','image'}
+ANSWER_HEADER = ['id','submission_time','vote_number','question_id','message','image']
 
 def get_all_answers_by_latest():
     data = []
@@ -28,7 +28,6 @@ def get_answer_by_question_id(question_id):
 def add_answer(answer, question_id):
     data = {} 
     answers = utils.open_file(answers_data, ANSWER_HEADER)
-    
     if len(answers) == 0:
         iddd = 1
     else:

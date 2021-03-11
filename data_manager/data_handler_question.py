@@ -9,7 +9,6 @@ ANSWER_HEADER = ['id','submission_time','vote_number','question_id','message','i
 def get_all_quetions_by_latest(order=False, by='submission_time'):
     data = []
     questions = utils.open_file(questions_data, QUESTION_HEADER)
-    questions.remove(questions[0])
     for row in questions:
         data.append(row)
         data = sorted(data, key=lambda i: i[by],reverse=order)
@@ -42,16 +41,16 @@ def increment_view_number(question):
          
 
 def delete_question_by_id(question_id):
+    
     question_lines = []
-    answer_lines = []
     questions = utils.open_file(questions_data, QUESTION_HEADER)
-    answers = utils.open_file(answers_data, ANSWER_HEADER)
-
     for row in questions:
         if row['id'] != question_id:
              question_lines.append(row)
     utils.write_to_file(questions_data, question_lines, QUESTION_HEADER)          
 
+    answer_lines = []
+    answers = utils.open_file(answers_data, ANSWER_HEADER)
     for row in answers:
         if row['question_id'] != question_id:
             answer_lines.append(row)
