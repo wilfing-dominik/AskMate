@@ -1,6 +1,7 @@
 import utils
-import datetime
+from datetime import datetime as dt 
 
+date = dt.now()
 questions_data = "question.csv"
 answers_data = "answer.csv"
 QUESTION_HEADER = ['id','submission_time','view_number','vote_number','title','message','image']
@@ -26,7 +27,7 @@ def get_question_by_id(question_id):
 def add_question(question):
     data = {}
     data['id'] = question['id']
-    data['submission_time'] = datetime.datetime.now()
+    data['submission_time'] = date.strftime("%c")
     data['view_number'] = 0
     data['vote_number'] = 0 
     data['title'] = question['title']
@@ -57,14 +58,13 @@ def delete_question_by_id(question_id):
     utils.write_to_file(answers_data, answer_lines, ANSWER_HEADER)           
 
 
-def edit_question_by_id():
-    questions = []
-
-    utils.open_file(questions_data, QUESTION_HEADER)
-    for row in reader:
-        pass
-                
-    '''with open('./data/question.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerows(question)'''
+def edit_question_by_id(question_id, title, message):
+    data = []
+    questions = utils.open_file(questions_data, QUESTION_HEADER)
+    for row in questions:
+        if row['id'] == question_id:
+            row['title'] = title
+            row['message'] = message
+        data.append(row)
+    utils.write_to_file(questions_data, questions, QUESTION_HEADER)
         

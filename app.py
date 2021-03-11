@@ -70,18 +70,20 @@ def post_answer(question_id):
 
 @app.route('/question/<answer_id>/delete-answer', methods=['GET','POST'])
 def delete_answer_by_id(answer_id):
-        data_handler_answer.delete_answer_by_id(answer_id)
-        return redirect('/')
+        current_answer = data_handler_answer.delete_answer_by_id(answer_id)
+        return redirect('/question/' + str(current_answer["question_id"]))
 
 
 @app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
 def edit_question(question_id):
-    question = data_handler_question.get_question_by_id(question_id)
-
+    
     if request.method == 'POST':
-        data_handler_question.edit_question_by_id() 
+        title = request.form['title']
+        message = request.form['message']
+        data_handler_question.edit_question_by_id(question_id, title, message) 
         return redirect('/question/' + str(question_id))
 
+    question = data_handler_question.get_question_by_id(question_id)
     return render_template('edit-question.html', question=question, question_id=question_id)
 
 

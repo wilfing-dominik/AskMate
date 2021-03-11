@@ -1,6 +1,7 @@
-import datetime
+from datetime import datetime as dt 
 import utils
 
+date = dt.now()
 questions_data = "question.csv"
 answers_data = "answer.csv"
 ANSWER_HEADER = ['id','submission_time','vote_number','question_id','message','image']
@@ -36,7 +37,7 @@ def add_answer(answer, question_id):
         iddd= id_int+1
 
     data['id'] =  iddd
-    data['submission_time'] = datetime.datetime.now()
+    data['submission_time'] = date.strftime("%c")
     data['vote_number'] = 0
     data['question_id'] = question_id
     data['message'] = answer
@@ -48,9 +49,11 @@ def add_answer(answer, question_id):
 def delete_answer_by_id(answer_id):
     data = []
     answers = utils.open_file(answers_data, ANSWER_HEADER)
-
+    current_answer = {}
     for row in answers:
         if row['id'] != answer_id:
             data.append(row)
-
+        else:
+            current_answer = row
     utils.write_to_file(answers_data, data, ANSWER_HEADER)
+    return current_answer
