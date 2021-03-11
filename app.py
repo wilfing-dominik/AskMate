@@ -24,9 +24,8 @@ def question_list():
 @app.route('/question/<question_id>')
 def question(question_id):
     question = data_handler_question.get_question_by_id(question_id)
-    data_handler_question.increment_view_number(question)
     answers = data_handler_answer.get_answer_by_question_id(question_id)
-
+    data_handler_question.increment_view_number(question)
     if len(answers) > 0:
         return render_template('question.html', question=question, answers=answers)
     else:

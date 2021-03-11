@@ -38,7 +38,15 @@ def add_question(question):
 
 
 def increment_view_number(question):
-    pass
+    question_lines = []
+    questions = utils.open_file(questions_data, QUESTION_HEADER)
+    for row in questions:
+        if row['id'] == question['id']:
+            row_int = int(row['view_number']) 
+            row_int +=1
+            row['view_number'] = row_int
+        question_lines.append(row)
+    utils.write_to_file(questions_data, question_lines, QUESTION_HEADER)   
          
 
 def delete_question_by_id(question_id):
